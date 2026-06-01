@@ -1,0 +1,295 @@
+/* ============================================================
+   Vault Task Planner — styles
+   ============================================================ */
+
+.task-planner-root {
+	padding: 16px;
+	font-family: var(--font-interface);
+	color: var(--text-normal);
+	overflow-y: auto;
+	height: 100%;
+	box-sizing: border-box;
+}
+
+/* Header */
+.tp-header {
+	margin-bottom: 16px;
+}
+.tp-header h2 {
+	margin: 0 0 8px 0;
+	font-size: 1.3em;
+}
+.tp-controls {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+	align-items: center;
+}
+.tp-select {
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 4px;
+	padding: 4px 8px;
+	color: var(--text-normal);
+	font-size: 0.85em;
+}
+.tp-btn {
+	background: var(--interactive-accent);
+	color: var(--text-on-accent);
+	border: none;
+	border-radius: 4px;
+	padding: 4px 10px;
+	cursor: pointer;
+	font-size: 0.85em;
+}
+.tp-btn:hover { opacity: 0.85; }
+.tp-btn--cancel {
+	background: var(--background-modifier-error);
+}
+.tp-btn-small {
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 4px;
+	padding: 2px 7px;
+	cursor: pointer;
+	font-size: 0.78em;
+	color: var(--text-muted);
+	white-space: nowrap;
+}
+.tp-btn-small:hover {
+	color: var(--text-normal);
+	border-color: var(--interactive-accent);
+}
+.tp-count {
+	font-size: 0.82em;
+	color: var(--text-muted);
+}
+
+/* Section */
+.tp-section {
+	margin-bottom: 24px;
+}
+.tp-section h3 {
+	margin: 0 0 10px 0;
+	font-size: 1em;
+	color: var(--text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+.tp-section-label {
+	font-size: 0.82em;
+	color: var(--text-muted);
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	margin: 12px 0 4px 0;
+}
+
+/* Timeline */
+.tp-timeline {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+.tp-week {
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 6px;
+	overflow: hidden;
+}
+.tp-week--current {
+	border-color: var(--interactive-accent);
+}
+.tp-week-label {
+	background: var(--background-secondary);
+	padding: 4px 10px;
+	font-size: 0.8em;
+	font-weight: 600;
+	color: var(--text-muted);
+}
+.tp-week--current .tp-week-label {
+	background: var(--interactive-accent);
+	color: var(--text-on-accent);
+}
+.tp-days {
+	display: flex;
+	gap: 0;
+	overflow-x: auto;
+}
+.tp-day {
+	flex: 1;
+	min-width: 100px;
+	padding: 6px;
+	border-right: 1px solid var(--background-modifier-border);
+	background: var(--background-primary);
+}
+.tp-day:last-child { border-right: none; }
+.tp-day--past { background: var(--background-secondary); }
+.tp-day--today {
+	background: color-mix(in srgb, var(--interactive-accent) 12%, var(--background-primary));
+}
+.tp-day-label {
+	font-size: 0.75em;
+	color: var(--text-muted);
+	margin-bottom: 4px;
+	font-weight: 600;
+}
+.tp-day--today .tp-day-label {
+	color: var(--interactive-accent);
+}
+.tp-day-empty {
+	font-size: 0.75em;
+	color: var(--background-modifier-border);
+	text-align: center;
+	padding: 4px 0;
+}
+
+/* Task chips (inside timeline) */
+.tp-chip {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	background: var(--background-secondary);
+	border-radius: 4px;
+	padding: 3px 6px;
+	margin-bottom: 3px;
+	font-size: 0.78em;
+	cursor: pointer;
+	border: 1px solid var(--background-modifier-border);
+	position: relative;
+}
+.tp-chip:hover { border-color: var(--interactive-accent); }
+.tp-chip-text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	flex: 1;
+}
+.tp-chip-done {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 0.9em;
+	color: var(--text-muted);
+	padding: 0 2px;
+	flex-shrink: 0;
+	transition: color 0.15s;
+}
+.tp-chip-done:hover { color: var(--interactive-accent); }
+.tp-chip-edit {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 0.9em;
+	color: var(--text-muted);
+	padding: 0 2px;
+	opacity: 0;
+	transition: opacity 0.1s;
+}
+.tp-chip:hover .tp-chip-edit { opacity: 1; }
+.tp-chip--completing {
+	opacity: 0.4;
+	pointer-events: none;
+	text-decoration: line-through;
+}
+
+/* Overdue section */
+.tp-overdue {
+	margin-top: 10px;
+	padding: 8px;
+	background: color-mix(in srgb, var(--background-modifier-error) 10%, var(--background-primary));
+	border-radius: 6px;
+	border: 1px solid color-mix(in srgb, var(--background-modifier-error) 40%, transparent);
+}
+
+/* Task rows (in the list section) */
+.tp-task-row {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	padding: 6px 4px;
+	border-bottom: 1px solid var(--background-modifier-border);
+	position: relative;
+}
+.tp-task-row:last-child { border-bottom: none; }
+.tp-checkbox {
+	font-size: 1.1em;
+	color: var(--text-muted);
+	cursor: pointer;
+	padding-top: 1px;
+	flex-shrink: 0;
+	transition: color 0.15s;
+	user-select: none;
+}
+.tp-checkbox:hover { color: var(--interactive-accent); }
+.tp-checkbox--done { color: var(--interactive-accent); }
+.tp-task-row--completing {
+	opacity: 0.4;
+	pointer-events: none;
+}
+.tp-task-row--completing .tp-task-text {
+	text-decoration: line-through;
+}
+.tp-task-body {
+	flex: 1;
+	min-width: 0;
+}
+.tp-task-text {
+	font-size: 0.9em;
+	cursor: pointer;
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.tp-task-text:hover { color: var(--interactive-accent); }
+.tp-task-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	margin-top: 2px;
+}
+.tp-task-source {
+	font-size: 0.75em;
+	color: var(--text-muted);
+	font-style: italic;
+}
+.tp-date-tag {
+	font-size: 0.75em;
+	padding: 1px 5px;
+	border-radius: 10px;
+	background: var(--background-secondary);
+}
+.tp-date-due    { background: color-mix(in srgb, #e05c5c 15%, transparent); }
+.tp-date-before { background: color-mix(in srgb, #e0a020 15%, transparent); }
+.tp-date-start  { background: color-mix(in srgb, #20a060 15%, transparent); }
+.tp-date-end    { background: color-mix(in srgb, #4070e0 15%, transparent); }
+
+/* Inline date editor */
+.tp-date-editor {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	align-items: center;
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 6px;
+	padding: 8px;
+	margin-top: 6px;
+	z-index: 100;
+}
+.tp-date-input {
+	background: var(--background-primary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 4px;
+	padding: 3px 6px;
+	color: var(--text-normal);
+	font-size: 0.85em;
+}
+
+/* Empty state */
+.tp-empty {
+	color: var(--text-muted);
+	font-style: italic;
+	font-size: 0.9em;
+	padding: 16px 0;
+}

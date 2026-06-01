@@ -1,0 +1,10 @@
+{
+	"id": "vault-task-planner",
+	"name": "Vault Task Planner",
+	"version": "1.0.0",
+	"minAppVersion": "1.4.0",
+	"description": "Aggregates all incomplete tasks from the vault into a monthly timeline view with in-place date editing and write-back to source notes.",
+	"author": "gionzi",
+	"authorUrl": "",
+	"isDesktopOnly": false
+}

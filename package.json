@@ -1,0 +1,17 @@
+{
+	"name": "vault-task-planner",
+	"version": "1.0.0",
+	"description": "Obsidian plugin: aggregates vault tasks into a monthly timeline",
+	"main": "main.js",
+	"scripts": {
+		"build": "node esbuild.config.mjs production",
+		"dev": "node esbuild.config.mjs"
+	},
+	"devDependencies": {
+		"@types/node": "^20.0.0",
+		"obsidian": "latest",
+		"typescript": "^5.0.0",
+		"esbuild": "^0.20.0",
+		"builtin-modules": "^3.3.0"
+	}
+}
