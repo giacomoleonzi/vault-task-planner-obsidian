@@ -86,7 +86,6 @@ export class TaskPlannerView extends ItemView {
 		this.registerEvent(
 			this.app.vault.on('modify', async (file) => {
 				if (file instanceof TFile && file.extension === 'md') {
-					console.log('[TaskPlanner] vault:modify →', file.path);
 					await this.refresh();
 				}
 			})
@@ -96,9 +95,7 @@ export class TaskPlannerView extends ItemView {
 	}
 
 	async refresh(): Promise<void> {
-		console.log('[TaskPlanner] refresh() — tasks before:', this.tasks.length);
 		this.tasks = await scanVault(this.app);
-		console.log('[TaskPlanner] refresh() — tasks after:', this.tasks.length);
 		this.render();
 	}
 
@@ -148,7 +145,7 @@ export class TaskPlannerView extends ItemView {
 
 		// ── timeline range row ──
 		const rangeRow = header.createEl('div', { cls: 'tp-range-row' });
-		rangeRow.createEl('span', { cls: 'tp-range-label', text: 'Timeline window:' });
+		rangeRow.createEl('span', { cls: 'tp-range-label', text: 'Timeline window' });
 
 		this.renderWeekStepper(rangeRow, '← weeks back', this.plugin.settings.weeksBack, 0, 8,
 			async (v) => { this.plugin.settings.weeksBack = v; await this.plugin.saveSettings(); });
@@ -238,7 +235,7 @@ export class TaskPlannerView extends ItemView {
 		}
 
 		const section = container.createEl('div', { cls: 'tp-section' });
-		section.createEl('h3', { text: '📅 Timeline' });
+		section.createEl('h3', { text: '📅 Timeline' }); // section heading, not a setting heading
 
 		const timelineEl = section.createEl('div', { cls: 'tp-timeline' });
 		const tasksWithDates = this.filteredTasks().filter(t => getTaskPrimaryDate(t) !== null);
@@ -275,7 +272,7 @@ export class TaskPlannerView extends ItemView {
 		});
 		if (overdue.length > 0) {
 			const overdueEl = section.createEl('div', { cls: 'tp-overdue' });
-			overdueEl.createEl('div', { cls: 'tp-section-label', text: '⚠️ Overdue — before timeline window' });
+			overdueEl.createEl('div', { cls: 'tp-section-label', text: '⚠️ Overdue — before window start' });
 			overdue.forEach(t => this.renderTaskRow(overdueEl, t));
 		}
 	}
@@ -322,7 +319,7 @@ export class TaskPlannerView extends ItemView {
 		const unscheduled = tasks.filter(t => getTaskPrimaryDate(t) === null);
 
 		const section = container.createEl('div', { cls: 'tp-section' });
-		section.createEl('h3', { text: '📋 All Tasks' });
+		section.createEl('h3', { text: '📋 All tasks' });
 
 		if (withDate.length > 0) {
 			section.createEl('div', { cls: 'tp-section-label', text: 'Scheduled' });

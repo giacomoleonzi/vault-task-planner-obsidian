@@ -25,7 +25,7 @@ export default class VaultTaskPlannerPlugin extends Plugin {
 	}
 
 	onunload(): void {
-		this.app.workspace.detachLeavesOfType(VIEW_TYPE);
+		// Do not detach leaves on unload — Obsidian handles view lifecycle
 	}
 
 	async loadSettings(): Promise<void> {

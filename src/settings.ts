@@ -14,10 +14,11 @@ export class TaskPlannerSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		containerEl.createEl('h2', { text: 'Vault Task Planner — Settings' });
+		// Use setHeading() per Obsidian guidelines (not createEl('h2'))
+		new Setting(containerEl).setHeading().setName('Timeline window');
 
 		containerEl.createEl('p', {
-			text: 'Configure the default timeline window. You can also adjust it directly in the planner view.',
+			text: 'Set the default range of weeks shown in the timeline. You can also adjust this on the fly directly in the planner view.',
 			cls: 'setting-item-description',
 		});
 
