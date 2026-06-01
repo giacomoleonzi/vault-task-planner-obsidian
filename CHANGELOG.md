@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 versioning follows [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.0.0] - 2026-06-01
 
 ### Added
 - Vault-wide incomplete task scanner (supports Tasks plugin emoji format and Dataview inline fields)
