@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 versioning follows [Semantic Versioning](https://semver.org/).
 
+## [1.0.1] - 2026-06-01
+
+### Changed
+- Replaced the `builtin-modules` dependency with Node's native `node:module` `builtinModules`
+- Scanner now uses `Vault.cachedRead` for read-only access
+- Removed `as any` casts: typed `Vault.process` and `MarkdownView` instanceof checks
+- Sentence-case command and ribbon labels per Obsidian UI guidelines
+
 ## [1.0.0] - 2026-06-01
 
 ### Added
