@@ -19,7 +19,7 @@ export async function writeTaskDate(
 ): Promise<void> {
 	const file = getFile(app, sourcePath);
 
-	await (app.vault as any).process(file, (content: string) => {
+	await app.vault.process(file, (content) => {
 		const lines = content.split('\n');
 		if (sourceLine >= lines.length) throw new Error(`Line ${sourceLine} out of bounds`);
 		lines[sourceLine] = setDateInLine(lines[sourceLine], type, isoDate);
@@ -34,7 +34,7 @@ export async function completeTask(
 ): Promise<void> {
 	const file = getFile(app, sourcePath);
 
-	await (app.vault as any).process(file, (content: string) => {
+	await app.vault.process(file, (content) => {
 		const lines = content.split('\n');
 		if (sourceLine >= lines.length) throw new Error(`Line ${sourceLine} out of bounds`);
 		const updated = lines[sourceLine].replace(/^(\s*-\s+)\[ \]/, '$1[x]');
@@ -54,7 +54,7 @@ export async function removeTaskDate(
 ): Promise<void> {
 	const file = getFile(app, sourcePath);
 
-	await (app.vault as any).process(file, (content: string) => {
+	await app.vault.process(file, (content) => {
 		const lines = content.split('\n');
 		if (sourceLine >= lines.length) throw new Error(`Line ${sourceLine} out of bounds`);
 		lines[sourceLine] = removeDateFromLine(lines[sourceLine], type);

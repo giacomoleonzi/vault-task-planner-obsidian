@@ -1,4 +1,4 @@
-import { ItemView, WorkspaceLeaf, TFile, Notice } from 'obsidian';
+import { ItemView, WorkspaceLeaf, TFile, MarkdownView, Notice } from 'obsidian';
 import { VaultTask, DateType, DATE_EMOJI, DATE_LABEL } from './types';
 import { scanVault } from './taskScanner';
 import { writeTaskDate, completeTask } from './taskWriter';
@@ -410,17 +410,17 @@ export class TaskPlannerView extends ItemView {
 
 	private async openSource(task: VaultTask): Promise<void> {
 		const file = this.app.vault.getAbstractFileByPath(task.sourcePath);
-		if (!file) return;
+		if (!(file instanceof TFile)) return;
 
 		const existingLeaf = this.app.workspace.getLeavesOfType('markdown')
-			.find(l => (l.view as any)?.file?.path === task.sourcePath);
+			.find(l => l.view instanceof MarkdownView && l.view.file?.path === task.sourcePath);
 		const leaf = existingLeaf ?? this.app.workspace.getLeaf('tab');
 
-		if (!existingLeaf) await leaf.openFile(file as TFile);
+		if (!existingLeaf) await leaf.openFile(file);
 		this.app.workspace.revealLeaf(leaf);
 
-		const view = leaf.view as any;
-		if (view?.editor) {
+		const view = leaf.view;
+		if (view instanceof MarkdownView) {
 			view.editor.setCursor({ line: task.sourceLine, ch: 0 });
 			view.editor.scrollIntoView(
 				{ from: { line: task.sourceLine, ch: 0 }, to: { line: task.sourceLine, ch: 0 } },

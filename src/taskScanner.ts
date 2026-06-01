@@ -7,7 +7,7 @@ function makeTaskId(path: string, line: number): string {
 }
 
 export async function scanFile(app: App, file: TFile): Promise<VaultTask[]> {
-	const content = await app.vault.read(file);
+	const content = await app.vault.cachedRead(file);
 	const lines = content.split('\n');
 	const tasks: VaultTask[] = [];
 

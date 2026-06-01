@@ -11,13 +11,13 @@ export default class VaultTaskPlannerPlugin extends Plugin {
 
 		this.registerView(VIEW_TYPE, (leaf) => new TaskPlannerView(leaf, this));
 
-		this.addRibbonIcon('calendar-check', 'Open Task Planner', () => {
+		this.addRibbonIcon('calendar-check', 'Open task planner', () => {
 			this.activateView();
 		});
 
 		this.addCommand({
 			id: 'open-task-planner',
-			name: 'Open Task Planner',
+			name: 'Open task planner',
 			callback: () => this.activateView(),
 		});
 
