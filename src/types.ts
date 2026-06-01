@@ -27,3 +27,13 @@ export const DATE_LABEL: Record<DateType, string> = {
 	end: 'End',
 	before: 'Before',
 };
+
+export interface PluginSettings {
+	weeksBack: number;    // weeks before today to show  (default: 1)
+	weeksForward: number; // weeks ahead of today to show (default: 4)
+}
+
+export const DEFAULT_SETTINGS: PluginSettings = {
+	weeksBack: 1,
+	weeksForward: 4,
+};

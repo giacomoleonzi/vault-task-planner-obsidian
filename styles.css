@@ -15,16 +15,91 @@
 .tp-header {
 	margin-bottom: 16px;
 }
-.tp-header h2 {
-	margin: 0 0 8px 0;
-	font-size: 1.3em;
+.tp-title-row {
+	display: flex;
+	align-items: baseline;
+	gap: 10px;
+	margin-bottom: 8px;
+}
+.tp-title-row h2 {
+	margin: 0;
+	font-size: 1.2em;
 }
 .tp-controls {
 	display: flex;
 	gap: 8px;
 	flex-wrap: wrap;
 	align-items: center;
+	margin-bottom: 8px;
 }
+
+/* Timeline range row */
+.tp-range-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+	padding: 6px 10px;
+	background: var(--background-secondary);
+	border-radius: 6px;
+	border: 1px solid var(--background-modifier-border);
+	margin-top: 4px;
+}
+.tp-range-label {
+	font-size: 0.8em;
+	color: var(--text-muted);
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+.tp-range-sep {
+	font-size: 0.78em;
+	color: var(--interactive-accent);
+	font-weight: 700;
+	padding: 0 4px;
+}
+
+/* Week stepper control */
+.tp-stepper {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+.tp-stepper-btn {
+	width: 22px;
+	height: 22px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--background-primary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 0.95em;
+	color: var(--text-normal);
+	padding: 0;
+	line-height: 1;
+}
+.tp-stepper-btn:hover:not(:disabled) {
+	border-color: var(--interactive-accent);
+	color: var(--interactive-accent);
+}
+.tp-stepper-btn:disabled {
+	opacity: 0.35;
+	cursor: not-allowed;
+}
+.tp-stepper-value {
+	min-width: 20px;
+	text-align: center;
+	font-size: 0.9em;
+	font-weight: 700;
+	color: var(--text-normal);
+}
+.tp-stepper-label {
+	font-size: 0.8em;
+	color: var(--text-muted);
+}
+
 .tp-select {
 	background: var(--background-secondary);
 	border: 1px solid var(--background-modifier-border);
@@ -63,6 +138,7 @@
 .tp-count {
 	font-size: 0.82em;
 	color: var(--text-muted);
+	margin-left: auto;
 }
 
 /* Section */
