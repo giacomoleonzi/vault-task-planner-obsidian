@@ -1,6 +1,6 @@
 {
 	"name": "vault-task-planner",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"description": "Obsidian plugin: aggregates vault tasks into a monthly timeline",
 	"main": "main.js",
 	"scripts": {
