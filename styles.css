@@ -131,6 +131,12 @@
 	font-size: 0.78em;
 	color: var(--text-muted);
 	white-space: nowrap;
+	flex-shrink: 0;
+	opacity: 0;
+	transition: opacity 0.15s;
+}
+.tp-task-row:hover .tp-btn-small {
+	opacity: 1;
 }
 .tp-btn-small:hover {
 	color: var(--text-normal);
