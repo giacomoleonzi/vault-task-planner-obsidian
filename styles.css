@@ -122,25 +122,20 @@
 .tp-btn--cancel {
 	background: var(--background-modifier-error);
 }
-.tp-btn-small {
-	background: var(--background-secondary);
-	border: 1px solid var(--background-modifier-border);
-	border-radius: 4px;
-	padding: 2px 7px;
+.tp-cal-btn {
+	background: none;
+	border: none;
 	cursor: pointer;
-	font-size: 0.78em;
-	color: var(--text-muted);
-	white-space: nowrap;
+	font-size: 1em;
+	padding: 0 2px;
 	flex-shrink: 0;
-	opacity: 0;
-	transition: opacity 0.15s;
+	opacity: 0.45;
+	transition: opacity 0.15s, transform 0.1s;
+	line-height: 1;
 }
-.tp-task-row:hover .tp-btn-small {
+.tp-cal-btn:hover {
 	opacity: 1;
-}
-.tp-btn-small:hover {
-	color: var(--text-normal);
-	border-color: var(--interactive-accent);
+	transform: scale(1.15);
 }
 .tp-count {
 	font-size: 0.82em;

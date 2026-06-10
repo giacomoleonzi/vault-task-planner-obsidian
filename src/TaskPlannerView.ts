@@ -356,6 +356,10 @@ export class TaskPlannerView extends ItemView {
 			}
 		});
 
+		const calBtn = row.createEl('button', { cls: 'tp-cal-btn', text: '📅' });
+		calBtn.setAttribute('title', 'Schedule task');
+		calBtn.addEventListener('click', () => this.openDateEditor(task, row));
+
 		const body = row.createEl('div', { cls: 'tp-task-body' });
 		const textEl = body.createEl('span', { cls: 'tp-task-text', text: task.text });
 		textEl.addEventListener('click', () => this.openSource(task));
@@ -368,9 +372,6 @@ export class TaskPlannerView extends ItemView {
 		task.dates.forEach(d => {
 			meta.createEl('span', { cls: `tp-date-tag tp-date-${d.type}`, text: `${DATE_EMOJI[d.type]} ${d.value}` });
 		});
-
-		const editBtn = row.createEl('button', { cls: 'tp-btn-small', text: '+ Date' });
-		editBtn.addEventListener('click', () => this.openDateEditor(task, row));
 	}
 
 	// ─── inline date editor ─────────────────────────────────────────────────
