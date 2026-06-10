@@ -47,5 +47,20 @@ export class TaskPlannerSettingTab extends PluginSettingTab {
 					await this.plugin.saveSettings();
 				})
 			);
+
+		new Setting(containerEl).setHeading().setName('Appearance');
+
+		new Setting(containerEl)
+			.setName('Task font size')
+			.setDesc('Font size (in px) for task text in the list and timeline chips.')
+			.addSlider(slider => slider
+				.setLimits(10, 24, 1)
+				.setValue(this.plugin.settings.taskFontSize)
+				.setDynamicTooltip()
+				.onChange(async (value) => {
+					this.plugin.settings.taskFontSize = value;
+					await this.plugin.saveSettings();
+				})
+			);
 	}
 }

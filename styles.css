@@ -3,6 +3,7 @@
    ============================================================ */
 
 .task-planner-root {
+	--tp-task-font-size: 14px; /* overridden inline by the plugin */
 	padding: 16px;
 	font-family: var(--font-interface);
 	color: var(--text-normal);
@@ -235,6 +236,7 @@
 }
 .tp-chip:hover { border-color: var(--interactive-accent); }
 .tp-chip-text {
+	font-size: var(--tp-task-font-size);
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -310,7 +312,7 @@
 	min-width: 0;
 }
 .tp-task-text {
-	font-size: 0.9em;
+	font-size: var(--tp-task-font-size);
 	cursor: pointer;
 	display: block;
 	overflow: hidden;

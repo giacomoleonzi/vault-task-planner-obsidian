@@ -103,6 +103,7 @@ export class TaskPlannerView extends ItemView {
 		const container = this.containerEl.children[1] as HTMLElement;
 		container.empty();
 		container.addClass('task-planner-root');
+		container.style.setProperty('--tp-task-font-size', `${this.plugin.settings.taskFontSize}px`);
 
 		this.renderHeader(container);
 		this.renderTimeline(container);

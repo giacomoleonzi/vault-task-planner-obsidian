@@ -32,9 +32,11 @@ export const DATE_LABEL: Record<DateType, string> = {
 export interface PluginSettings {
 	weeksBack: number;    // weeks before today to show  (default: 1)
 	weeksForward: number; // weeks ahead of today to show (default: 4)
+	taskFontSize: number; // task text font size in px (default: 14)
 }
 
 export const DEFAULT_SETTINGS: PluginSettings = {
 	weeksBack: 1,
 	weeksForward: 4,
+	taskFontSize: 14,
 };
