@@ -360,7 +360,10 @@ export class TaskPlannerView extends ItemView {
 		textEl.addEventListener('click', () => this.openSource(task));
 
 		const meta = body.createEl('div', { cls: 'tp-task-meta' });
-		meta.createEl('span', { cls: 'tp-task-source', text: shortFileName(task.sourcePath) });
+		const sourceLabel = task.sourceHeading
+			? `${shortFileName(task.sourcePath)} (${task.sourceHeading})`
+			: shortFileName(task.sourcePath);
+		meta.createEl('span', { cls: 'tp-task-source', text: sourceLabel });
 		task.dates.forEach(d => {
 			meta.createEl('span', { cls: `tp-date-tag tp-date-${d.type}`, text: `${DATE_EMOJI[d.type]} ${d.value}` });
 		});

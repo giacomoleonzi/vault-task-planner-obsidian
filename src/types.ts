@@ -10,6 +10,7 @@ export interface VaultTask {
 	text: string;         // raw task text (without the "- [ ] " prefix)
 	sourcePath: string;   // relative path in vault
 	sourceLine: number;   // 0-based line number
+	sourceHeading: string | null; // nearest heading above the task (any level)
 	dates: TaskDate[];
 	completed: boolean;
 }
