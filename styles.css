@@ -343,18 +343,24 @@
 .tp-date-start  { background: color-mix(in srgb, #20a060 15%, transparent); }
 .tp-date-end    { background: color-mix(in srgb, #4070e0 15%, transparent); }
 
-/* Inline date editor */
+/* Inline date editor — rendered as sibling after the task row */
 .tp-date-editor {
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+	border-left: 3px solid var(--interactive-accent);
+	border-radius: 0 6px 6px 0;
+	padding: 8px 10px;
+	margin-bottom: 2px;
+}
+.tp-editor-row {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 6px;
 	align-items: center;
-	background: var(--background-secondary);
-	border: 1px solid var(--background-modifier-border);
-	border-radius: 6px;
-	padding: 8px;
-	margin-top: 6px;
-	z-index: 100;
+	margin-bottom: 6px;
+}
+.tp-editor-row:last-child {
+	margin-bottom: 0;
 }
 .tp-date-input {
 	background: var(--background-primary);
@@ -363,6 +369,9 @@
 	padding: 3px 6px;
 	color: var(--text-normal);
 	font-size: 0.85em;
+}
+.tp-time-input {
+	width: 100px;
 }
 
 /* Empty state */

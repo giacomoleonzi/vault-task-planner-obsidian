@@ -377,37 +377,57 @@ export class TaskPlannerView extends ItemView {
 	// ─── inline date editor ─────────────────────────────────────────────────
 
 	private openDateEditor(task: VaultTask, anchor: HTMLElement): void {
-		const existing = anchor.querySelector('.tp-date-editor');
+		// Remove any existing editor (toggle behaviour)
+		const existingId = `tp-editor-${task.id}`;
+		const existing = anchor.parentElement?.querySelector(`[data-editor-id="${existingId}"]`);
 		if (existing) { existing.remove(); return; }
 
-		const editor = anchor.createEl('div', { cls: 'tp-date-editor' });
+		// Insert as sibling AFTER the row, not inside it, so it doesn't join the flex layout
+		const editor = createEl('div', { cls: 'tp-date-editor' });
+		editor.setAttribute('data-editor-id', existingId);
+		anchor.insertAdjacentElement('afterend', editor);
 
-		const typeSelect = editor.createEl('select', { cls: 'tp-select' });
+		// ── row 1: type + date + time ──
+		const inputRow = editor.createEl('div', { cls: 'tp-editor-row' });
+
+		const typeSelect = inputRow.createEl('select', { cls: 'tp-select' });
 		(['due', 'before', 'start', 'end'] as DateType[]).forEach(type => {
 			typeSelect.createEl('option', { value: type, text: `${DATE_EMOJI[type]} ${DATE_LABEL[type]}` });
 		});
 
-		const dateInput = editor.createEl('input', { cls: 'tp-date-input', type: 'date' });
+		const dateInput = inputRow.createEl('input', { cls: 'tp-date-input', type: 'date' });
+		const timeInput = inputRow.createEl('input', { cls: 'tp-date-input tp-time-input', type: 'time' });
 
 		const prefill = () => {
 			const cur = task.dates.find(d => d.type === typeSelect.value);
-			dateInput.value = cur?.value ?? isoToday();
+			if (cur) {
+				const [datePart, timePart] = cur.value.split(' ');
+				dateInput.value = datePart;
+				timeInput.value = timePart ?? '';
+			} else {
+				dateInput.value = isoToday();
+				timeInput.value = '';
+			}
 		};
 		prefill();
 		typeSelect.addEventListener('change', prefill);
 
-		const saveBtn = editor.createEl('button', { cls: 'tp-btn', text: 'Save' });
+		// ── row 2: actions ──
+		const actionRow = editor.createEl('div', { cls: 'tp-editor-row' });
+
+		const saveBtn = actionRow.createEl('button', { cls: 'tp-btn', text: 'Save' });
 		saveBtn.addEventListener('click', async () => {
 			if (!dateInput.value) { new Notice('Pick a date first.'); return; }
+			const value = timeInput.value ? `${dateInput.value} ${timeInput.value}` : dateInput.value;
 			try {
-				await writeTaskDate(this.app, task.sourcePath, task.sourceLine, typeSelect.value as DateType, dateInput.value);
+				await writeTaskDate(this.app, task.sourcePath, task.sourceLine, typeSelect.value as DateType, value);
 				editor.remove();
 			} catch (e) {
 				new Notice(`Error: ${(e as Error).message}`);
 			}
 		});
 
-		const cancelBtn = editor.createEl('button', { cls: 'tp-btn tp-btn--cancel', text: 'Cancel' });
+		const cancelBtn = actionRow.createEl('button', { cls: 'tp-btn tp-btn--cancel', text: 'Cancel' });
 		cancelBtn.addEventListener('click', () => editor.remove());
 	}
 
