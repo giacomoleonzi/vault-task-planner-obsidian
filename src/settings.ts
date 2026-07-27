@@ -1,5 +1,5 @@
 import { App, PluginSettingTab, Setting } from 'obsidian';
-import { PluginSettings } from './types';
+import type { PluginSettings } from './types';
 import VaultTaskPlannerPlugin from './main';
 
 export class TaskPlannerSettingTab extends PluginSettingTab {
@@ -14,7 +14,6 @@ export class TaskPlannerSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		// Use setHeading() per Obsidian guidelines (not createEl('h2'))
 		new Setting(containerEl).setHeading().setName('Timeline window');
 
 		containerEl.createEl('p', {
@@ -28,7 +27,6 @@ export class TaskPlannerSettingTab extends PluginSettingTab {
 			.addSlider(slider => slider
 				.setLimits(0, 8, 1)
 				.setValue(this.plugin.settings.weeksBack)
-				.setDynamicTooltip()
 				.onChange(async (value) => {
 					this.plugin.settings.weeksBack = value;
 					await this.plugin.saveSettings();
@@ -41,7 +39,6 @@ export class TaskPlannerSettingTab extends PluginSettingTab {
 			.addSlider(slider => slider
 				.setLimits(1, 12, 1)
 				.setValue(this.plugin.settings.weeksForward)
-				.setDynamicTooltip()
 				.onChange(async (value) => {
 					this.plugin.settings.weeksForward = value;
 					await this.plugin.saveSettings();
@@ -56,7 +53,6 @@ export class TaskPlannerSettingTab extends PluginSettingTab {
 			.addSlider(slider => slider
 				.setLimits(10, 24, 1)
 				.setValue(this.plugin.settings.taskFontSize)
-				.setDynamicTooltip()
 				.onChange(async (value) => {
 					this.plugin.settings.taskFontSize = value;
 					await this.plugin.saveSettings();
@@ -64,3 +60,6 @@ export class TaskPlannerSettingTab extends PluginSettingTab {
 			);
 	}
 }
+
+// Satisfy the linter — PluginSettings is used as a type import above
+export type { PluginSettings };

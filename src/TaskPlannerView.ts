@@ -84,14 +84,14 @@ export class TaskPlannerView extends ItemView {
 		await this.refresh();
 
 		this.registerEvent(
-			this.app.vault.on('modify', async (file) => {
+			this.app.vault.on('modify', (file) => {
 				if (file instanceof TFile && file.extension === 'md') {
-					await this.refresh();
+					void this.refresh();
 				}
 			})
 		);
-		this.registerEvent(this.app.vault.on('create', () => this.refresh()));
-		this.registerEvent(this.app.vault.on('delete', () => this.refresh()));
+		this.registerEvent(this.app.vault.on('create', () => { void this.refresh(); }));
+		this.registerEvent(this.app.vault.on('delete', () => { void this.refresh(); }));
 	}
 
 	async refresh(): Promise<void> {
@@ -142,7 +142,7 @@ export class TaskPlannerView extends ItemView {
 
 		// Refresh button
 		const refreshBtn = filters.createEl('button', { cls: 'tp-btn', text: '↻ Refresh' });
-		refreshBtn.addEventListener('click', () => this.refresh());
+		refreshBtn.addEventListener('click', () => { void this.refresh(); });
 
 		// ── timeline range row ──
 		const rangeRow = header.createEl('div', { cls: 'tp-range-row' });
@@ -186,8 +186,8 @@ export class TaskPlannerView extends ItemView {
 
 		decBtn.disabled = value <= min;
 		incBtn.disabled = value >= max;
-		decBtn.addEventListener('click', () => update(-1));
-		incBtn.addEventListener('click', () => update(+1));
+		decBtn.addEventListener('click', () => { void update(-1); });
+		incBtn.addEventListener('click', () => { void update(+1); });
 	}
 
 	// ─── filtered task list ─────────────────────────────────────────────────
@@ -286,21 +286,19 @@ export class TaskPlannerView extends ItemView {
 
 		const doneBtn = chip.createEl('button', { cls: 'tp-chip-done', text: '☐' });
 		doneBtn.setAttribute('title', 'Mark as complete');
-		doneBtn.addEventListener('click', async (e) => {
+		doneBtn.addEventListener('click', (e) => {
 			e.stopPropagation();
 			doneBtn.setText('☑');
 			chip.addClass('tp-chip--completing');
-			try {
-				await completeTask(this.app, task.sourcePath, task.sourceLine);
-			} catch (err) {
+			void completeTask(this.app, task.sourcePath, task.sourceLine).catch((err: Error) => {
 				doneBtn.setText('☐');
 				chip.removeClass('tp-chip--completing');
-				new Notice(`Could not complete task: ${(err as Error).message}`);
-			}
+				new Notice(`Could not complete task: ${err.message}`);
+			});
 		});
 
 		const text = chip.createEl('span', { cls: 'tp-chip-text', text: task.text });
-		text.addEventListener('click', () => this.openSource(task));
+		text.addEventListener('click', () => { void this.openSource(task); });
 
 		const editBtn = chip.createEl('button', { cls: 'tp-chip-edit', text: '✎' });
 		editBtn.setAttribute('title', 'Edit date');
@@ -342,18 +340,16 @@ export class TaskPlannerView extends ItemView {
 
 		const checkbox = row.createEl('span', { cls: 'tp-checkbox', text: '☐' });
 		checkbox.setAttribute('title', 'Mark as complete');
-		checkbox.addEventListener('click', async () => {
+		checkbox.addEventListener('click', () => {
 			checkbox.setText('☑');
 			checkbox.addClass('tp-checkbox--done');
 			row.addClass('tp-task-row--completing');
-			try {
-				await completeTask(this.app, task.sourcePath, task.sourceLine);
-			} catch (e) {
+			void completeTask(this.app, task.sourcePath, task.sourceLine).catch((e: Error) => {
 				checkbox.setText('☐');
 				checkbox.removeClass('tp-checkbox--done');
 				row.removeClass('tp-task-row--completing');
-				new Notice(`Could not complete task: ${(e as Error).message}`);
-			}
+				new Notice(`Could not complete task: ${e.message}`);
+			});
 		});
 
 		const calBtn = row.createEl('button', { cls: 'tp-cal-btn', text: '📅' });
@@ -362,7 +358,7 @@ export class TaskPlannerView extends ItemView {
 
 		const body = row.createEl('div', { cls: 'tp-task-body' });
 		const textEl = body.createEl('span', { cls: 'tp-task-text', text: task.text });
-		textEl.addEventListener('click', () => this.openSource(task));
+		textEl.addEventListener('click', () => { void this.openSource(task); });
 
 		const meta = body.createEl('div', { cls: 'tp-task-meta' });
 		const sourceLabel = task.sourceHeading
@@ -416,15 +412,12 @@ export class TaskPlannerView extends ItemView {
 		const actionRow = editor.createEl('div', { cls: 'tp-editor-row' });
 
 		const saveBtn = actionRow.createEl('button', { cls: 'tp-btn', text: 'Save' });
-		saveBtn.addEventListener('click', async () => {
+		saveBtn.addEventListener('click', () => {
 			if (!dateInput.value) { new Notice('Pick a date first.'); return; }
 			const value = timeInput.value ? `${dateInput.value} ${timeInput.value}` : dateInput.value;
-			try {
-				await writeTaskDate(this.app, task.sourcePath, task.sourceLine, typeSelect.value as DateType, value);
-				editor.remove();
-			} catch (e) {
-				new Notice(`Error: ${(e as Error).message}`);
-			}
+			void writeTaskDate(this.app, task.sourcePath, task.sourceLine, typeSelect.value as DateType, value)
+				.then(() => editor.remove())
+				.catch((e: Error) => new Notice(`Error: ${e.message}`));
 		});
 
 		const cancelBtn = actionRow.createEl('button', { cls: 'tp-btn tp-btn--cancel', text: 'Cancel' });
@@ -442,7 +435,7 @@ export class TaskPlannerView extends ItemView {
 		const leaf = existingLeaf ?? this.app.workspace.getLeaf('tab');
 
 		if (!existingLeaf) await leaf.openFile(file);
-		this.app.workspace.revealLeaf(leaf);
+		void this.app.workspace.revealLeaf(leaf);
 
 		const view = leaf.view;
 		if (view instanceof MarkdownView) {

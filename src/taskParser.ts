@@ -10,10 +10,10 @@ const EMOJI_PATTERNS: Record<DateType, RegExp> = {
 
 // Dataview inline field patterns: [due:: 2025-06-10] or (due:: 2025-06-10)
 const DATAVIEW_PATTERNS: Record<DateType, RegExp> = {
-	due:    /[\[(]due::\s*(\d{4}-\d{2}-\d{2})[\])]/,
-	start:  /[\[(]start::\s*(\d{4}-\d{2}-\d{2})[\])]/,
-	end:    /[\[(]end::\s*(\d{4}-\d{2}-\d{2})[\])]/,
-	before: /[\[(]scheduled::\s*(\d{4}-\d{2}-\d{2})[\])]/,
+	due:    /[[(]due::\s*(\d{4}-\d{2}-\d{2})[\])]/,
+	start:  /[[(]start::\s*(\d{4}-\d{2}-\d{2})[\])]/,
+	end:    /[[(]end::\s*(\d{4}-\d{2}-\d{2})[\])]/,
+	before: /[[(]scheduled::\s*(\d{4}-\d{2}-\d{2})[\])]/,
 };
 
 export function parseDatesFromLine(line: string): TaskDate[] {

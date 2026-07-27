@@ -12,13 +12,13 @@ export default class VaultTaskPlannerPlugin extends Plugin {
 		this.registerView(VIEW_TYPE, (leaf) => new TaskPlannerView(leaf, this));
 
 		this.addRibbonIcon('calendar-check', 'Open task planner', () => {
-			this.activateView();
+			void this.activateView();
 		});
 
 		this.addCommand({
 			id: 'open-task-planner',
 			name: 'Open task planner',
-			callback: () => this.activateView(),
+			callback: () => { void this.activateView(); },
 		});
 
 		this.addSettingTab(new TaskPlannerSettingTab(this.app, this));
@@ -29,7 +29,7 @@ export default class VaultTaskPlannerPlugin extends Plugin {
 	}
 
 	async loadSettings(): Promise<void> {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData() as Partial<PluginSettings>);
 	}
 
 	async saveSettings(): Promise<void> {
@@ -52,6 +52,6 @@ export default class VaultTaskPlannerPlugin extends Plugin {
 			await leaf.setViewState({ type: VIEW_TYPE, active: true });
 		}
 
-		workspace.revealLeaf(leaf);
+		void workspace.revealLeaf(leaf);
 	}
 }
