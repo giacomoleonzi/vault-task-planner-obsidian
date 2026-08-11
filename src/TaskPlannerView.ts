@@ -442,7 +442,6 @@ export class TaskPlannerView extends ItemView {
 			view.editor.setCursor({ line: task.sourceLine, ch: 0 });
 			view.editor.scrollIntoView(
 				{ from: { line: task.sourceLine, ch: 0 }, to: { line: task.sourceLine, ch: 0 } },
-				true,
 			);
 		}
 	}

@@ -50,12 +50,12 @@ export function extractTaskText(line: string): string {
  * Replaces the existing emoji date if present, otherwise appends it.
  */
 export function setDateInLine(line: string, type: DateType, isoDate: string): string {
-	const emoji = DATE_EMOJI[type];
+	const emoji = DATE_EMOJI[type] as string;
 	const emojiPattern = new RegExp(`${emoji}\\s*\\d{4}-\\d{2}-\\d{2}`);
 	const replacement = `${emoji} ${isoDate}`;
 
 	if (emojiPattern.test(line)) {
-		return line.replace(emojiPattern, replacement);
+		return line.replace(emojiPattern, replacement) as string;
 	}
 
 	// Also replace dataview format if present
@@ -72,9 +72,9 @@ export function setDateInLine(line: string, type: DateType, isoDate: string): st
  * Remove a specific date type from a task line.
  */
 export function removeDateFromLine(line: string, type: DateType): string {
-	const emoji = DATE_EMOJI[type];
+	const emoji = DATE_EMOJI[type] as string;
 	const emojiPattern = new RegExp(`\\s*${emoji}\\s*\\d{4}-\\d{2}-\\d{2}`, 'g');
-	line = line.replace(emojiPattern, '');
-	const dvPattern = new RegExp(`\\s*[\\[(](?:due|start|end|scheduled)::\\s*\\d{4}-\\d{2}-\\d{2}[\\])]`, 'g');
-	return line.replace(dvPattern, '').trimEnd();
+	line = line.replace(emojiPattern, '') as string;
+	const dvPattern = new RegExp(`\\s*[[(](?:due|start|end|scheduled)::\\s*\\d{4}-\\d{2}-\\d{2}[\\])]`, 'g');
+	return (line.replace(dvPattern, '') as string).trimEnd();
 }
