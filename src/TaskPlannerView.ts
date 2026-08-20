@@ -113,14 +113,14 @@ export class TaskPlannerView extends ItemView {
 	// ─── header ────────────────────────────────────────────────────────────
 
 	private renderHeader(container: HTMLElement): void {
-		const header = container.createEl('div', { cls: 'tp-header' });
+		const header = container.createDiv({ cls: 'tp-header' });
 
-		const titleRow = header.createEl('div', { cls: 'tp-title-row' });
+		const titleRow = header.createDiv({ cls: 'tp-title-row' });
 		titleRow.createEl('h2', { text: 'Task Planner' });
-		titleRow.createEl('span', { cls: 'tp-count', text: `${this.filteredTasks().length} tasks` });
+		titleRow.createSpan({ cls: 'tp-count', text: `${this.filteredTasks().length} tasks` });
 
 		// ── filters row ──
-		const filters = header.createEl('div', { cls: 'tp-controls' });
+		const filters = header.createDiv({ cls: 'tp-controls' });
 
 		// Filter: source note
 		const fileSelect = filters.createEl('select', { cls: 'tp-select' });
@@ -145,13 +145,13 @@ export class TaskPlannerView extends ItemView {
 		refreshBtn.addEventListener('click', () => { void this.refresh(); });
 
 		// ── timeline range row ──
-		const rangeRow = header.createEl('div', { cls: 'tp-range-row' });
-		rangeRow.createEl('span', { cls: 'tp-range-label', text: 'Timeline window' });
+		const rangeRow = header.createDiv({ cls: 'tp-range-row' });
+		rangeRow.createSpan({ cls: 'tp-range-label', text: 'Timeline window' });
 
 		this.renderWeekStepper(rangeRow, '← weeks back', this.plugin.settings.weeksBack, 0, 8,
 			async (v) => { this.plugin.settings.weeksBack = v; await this.plugin.saveSettings(); });
 
-		rangeRow.createEl('span', { cls: 'tp-range-sep', text: 'today' });
+		rangeRow.createSpan({ cls: 'tp-range-sep', text: 'today' });
 
 		this.renderWeekStepper(rangeRow, 'weeks forward →', this.plugin.settings.weeksForward, 1, 12,
 			async (v) => { this.plugin.settings.weeksForward = v; await this.plugin.saveSettings(); });
@@ -165,12 +165,12 @@ export class TaskPlannerView extends ItemView {
 		max: number,
 		onChange: (v: number) => Promise<void>,
 	): void {
-		const wrap = parent.createEl('div', { cls: 'tp-stepper' });
+		const wrap = parent.createDiv({ cls: 'tp-stepper' });
 
 		const decBtn = wrap.createEl('button', { cls: 'tp-stepper-btn', text: '−' });
-		const valueEl = wrap.createEl('span', { cls: 'tp-stepper-value', text: String(current) });
+		const valueEl = wrap.createSpan({ cls: 'tp-stepper-value', text: String(current) });
 		const incBtn = wrap.createEl('button', { cls: 'tp-stepper-btn', text: '+' });
-		wrap.createEl('span', { cls: 'tp-stepper-label', text: label });
+		wrap.createSpan({ cls: 'tp-stepper-label', text: label });
 
 		let value = current;
 
@@ -235,31 +235,31 @@ export class TaskPlannerView extends ItemView {
 			weekStart = addDays(weekStart, 7);
 		}
 
-		const section = container.createEl('div', { cls: 'tp-section' });
-		section.createEl('h3', { text: '📅 Timeline' }); // section heading, not a setting heading
+		const section = container.createDiv({ cls: 'tp-section' });
+		section.createEl('h3', { text: '📅 Timeline' });
 
-		const timelineEl = section.createEl('div', { cls: 'tp-timeline' });
+		const timelineEl = section.createDiv({ cls: 'tp-timeline' });
 		const tasksWithDates = this.filteredTasks().filter(t => getTaskPrimaryDate(t) !== null);
 
 		for (const week of weeks) {
-			const weekEl = timelineEl.createEl('div', {
+			const weekEl = timelineEl.createDiv({
 				cls: 'tp-week' + (week.isCurrentWeek ? ' tp-week--current' : ''),
 			});
-			weekEl.createEl('div', { cls: 'tp-week-label', text: week.label });
+			weekEl.createDiv({ cls: 'tp-week-label', text: week.label });
 
-			const daysEl = weekEl.createEl('div', { cls: 'tp-days' });
+			const daysEl = weekEl.createDiv({ cls: 'tp-days' });
 			for (const day of week.days) {
-				const dayEl = daysEl.createEl('div', {
+				const dayEl = daysEl.createDiv({
 					cls: ['tp-day',
 						day.isToday ? 'tp-day--today' : '',
 						day.isPast  ? 'tp-day--past'  : '',
 					].filter(Boolean).join(' '),
 				});
-				dayEl.createEl('div', { cls: 'tp-day-label', text: day.label });
+				dayEl.createDiv({ cls: 'tp-day-label', text: day.label });
 
 				const dayTasks = tasksWithDates.filter(t => getTaskPrimaryDate(t) === day.iso);
 				if (dayTasks.length === 0) {
-					dayEl.createEl('div', { cls: 'tp-day-empty', text: '—' });
+					dayEl.createDiv({ cls: 'tp-day-empty', text: '—' });
 				} else {
 					dayTasks.forEach(t => this.renderTaskChip(dayEl, t));
 				}
@@ -272,8 +272,8 @@ export class TaskPlannerView extends ItemView {
 			return d !== null && d < windowStart;
 		});
 		if (overdue.length > 0) {
-			const overdueEl = section.createEl('div', { cls: 'tp-overdue' });
-			overdueEl.createEl('div', { cls: 'tp-section-label', text: '⚠️ Overdue — before window start' });
+			const overdueEl = section.createDiv({ cls: 'tp-overdue' });
+			overdueEl.createDiv({ cls: 'tp-section-label', text: '⚠️ Overdue — before window start' });
 			overdue.forEach(t => this.renderTaskRow(overdueEl, t));
 		}
 	}
@@ -281,7 +281,7 @@ export class TaskPlannerView extends ItemView {
 	// ─── task chip (timeline) ───────────────────────────────────────────────
 
 	private renderTaskChip(parent: HTMLElement, task: VaultTask): void {
-		const chip = parent.createEl('div', { cls: 'tp-chip' });
+		const chip = parent.createDiv({ cls: 'tp-chip' });
 		chip.setAttribute('title', `${task.text}\n${shortFileName(task.sourcePath)}`);
 
 		const doneBtn = chip.createEl('button', { cls: 'tp-chip-done', text: '☐' });
@@ -297,7 +297,7 @@ export class TaskPlannerView extends ItemView {
 			});
 		});
 
-		const text = chip.createEl('span', { cls: 'tp-chip-text', text: task.text });
+		const text = chip.createSpan({ cls: 'tp-chip-text', text: task.text });
 		text.addEventListener('click', () => { void this.openSource(task); });
 
 		const editBtn = chip.createEl('button', { cls: 'tp-chip-edit', text: '✎' });
@@ -317,28 +317,28 @@ export class TaskPlannerView extends ItemView {
 			.sort((a, b) => (getTaskPrimaryDate(a) ?? '') < (getTaskPrimaryDate(b) ?? '') ? -1 : 1);
 		const unscheduled = tasks.filter(t => getTaskPrimaryDate(t) === null);
 
-		const section = container.createEl('div', { cls: 'tp-section' });
+		const section = container.createDiv({ cls: 'tp-section' });
 		section.createEl('h3', { text: '📋 All tasks' });
 
 		if (withDate.length > 0) {
-			section.createEl('div', { cls: 'tp-section-label', text: 'Scheduled' });
+			section.createDiv({ cls: 'tp-section-label', text: 'Scheduled' });
 			withDate.forEach(t => this.renderTaskRow(section, t));
 		}
 		if (unscheduled.length > 0) {
-			section.createEl('div', { cls: 'tp-section-label', text: 'Unscheduled' });
+			section.createDiv({ cls: 'tp-section-label', text: 'Unscheduled' });
 			unscheduled.forEach(t => this.renderTaskRow(section, t));
 		}
 		if (tasks.length === 0) {
-			section.createEl('div', { cls: 'tp-empty', text: 'No incomplete tasks found.' });
+			section.createDiv({ cls: 'tp-empty', text: 'No incomplete tasks found.' });
 		}
 	}
 
 	// ─── task row (list) ────────────────────────────────────────────────────
 
 	private renderTaskRow(parent: HTMLElement, task: VaultTask): void {
-		const row = parent.createEl('div', { cls: 'tp-task-row' });
+		const row = parent.createDiv({ cls: 'tp-task-row' });
 
-		const checkbox = row.createEl('span', { cls: 'tp-checkbox', text: '☐' });
+		const checkbox = row.createSpan({ cls: 'tp-checkbox', text: '☐' });
 		checkbox.setAttribute('title', 'Mark as complete');
 		checkbox.addEventListener('click', () => {
 			checkbox.setText('☑');
@@ -356,17 +356,17 @@ export class TaskPlannerView extends ItemView {
 		calBtn.setAttribute('title', 'Schedule task');
 		calBtn.addEventListener('click', () => this.openDateEditor(task, row));
 
-		const body = row.createEl('div', { cls: 'tp-task-body' });
-		const textEl = body.createEl('span', { cls: 'tp-task-text', text: task.text });
+		const body = row.createDiv({ cls: 'tp-task-body' });
+		const textEl = body.createSpan({ cls: 'tp-task-text', text: task.text });
 		textEl.addEventListener('click', () => { void this.openSource(task); });
 
-		const meta = body.createEl('div', { cls: 'tp-task-meta' });
+		const meta = body.createDiv({ cls: 'tp-task-meta' });
 		const sourceLabel = task.sourceHeading
 			? `${shortFileName(task.sourcePath)} (${task.sourceHeading})`
 			: shortFileName(task.sourcePath);
-		meta.createEl('span', { cls: 'tp-task-source', text: sourceLabel });
+		meta.createSpan({ cls: 'tp-task-source', text: sourceLabel });
 		task.dates.forEach(d => {
-			meta.createEl('span', { cls: `tp-date-tag tp-date-${d.type}`, text: `${DATE_EMOJI[d.type]} ${d.value}` });
+			meta.createSpan({ cls: `tp-date-tag tp-date-${d.type}`, text: `${DATE_EMOJI[d.type]} ${d.value}` });
 		});
 	}
 
@@ -378,13 +378,14 @@ export class TaskPlannerView extends ItemView {
 		const existing = anchor.parentElement?.querySelector(`[data-editor-id="${existingId}"]`);
 		if (existing) { existing.remove(); return; }
 
-		// Insert as sibling AFTER the row, not inside it, so it doesn't join the flex layout
-		const editor = createEl('div', { cls: 'tp-date-editor' });
+		// Create via parent then reinsert after anchor
+		const parent = anchor.parentElement ?? anchor;
+		const editor = parent.createDiv({ cls: 'tp-date-editor' });
 		editor.setAttribute('data-editor-id', existingId);
 		anchor.insertAdjacentElement('afterend', editor);
 
 		// ── row 1: type + date + time ──
-		const inputRow = editor.createEl('div', { cls: 'tp-editor-row' });
+		const inputRow = editor.createDiv({ cls: 'tp-editor-row' });
 
 		const typeSelect = inputRow.createEl('select', { cls: 'tp-select' });
 		(['due', 'before', 'start', 'end'] as DateType[]).forEach(type => {
@@ -409,7 +410,7 @@ export class TaskPlannerView extends ItemView {
 		typeSelect.addEventListener('change', prefill);
 
 		// ── row 2: actions ──
-		const actionRow = editor.createEl('div', { cls: 'tp-editor-row' });
+		const actionRow = editor.createDiv({ cls: 'tp-editor-row' });
 
 		const saveBtn = actionRow.createEl('button', { cls: 'tp-btn', text: 'Save' });
 		saveBtn.addEventListener('click', () => {
@@ -435,7 +436,7 @@ export class TaskPlannerView extends ItemView {
 		const leaf = existingLeaf ?? this.app.workspace.getLeaf('tab');
 
 		if (!existingLeaf) await leaf.openFile(file);
-		void this.app.workspace.revealLeaf(leaf);
+		await this.app.workspace.revealLeaf(leaf);
 
 		const view = leaf.view;
 		if (view instanceof MarkdownView) {

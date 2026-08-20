@@ -41,5 +41,9 @@ export async function scanFile(app: App, file: TFile): Promise<VaultTask[]> {
 export async function scanVault(app: App): Promise<VaultTask[]> {
 	const files = app.vault.getMarkdownFiles();
 	const results = await Promise.all(files.map(f => scanFile(app, f)));
-	return results.flat() as VaultTask[];
+	const allTasks: VaultTask[] = [];
+	for (const fileTasks of results) {
+		allTasks.push(...fileTasks);
+	}
+	return allTasks;
 }

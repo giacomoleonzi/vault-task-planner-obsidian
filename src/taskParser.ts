@@ -50,31 +50,35 @@ export function extractTaskText(line: string): string {
  * Replaces the existing emoji date if present, otherwise appends it.
  */
 export function setDateInLine(line: string, type: DateType, isoDate: string): string {
-	const emoji = DATE_EMOJI[type] as string;
-	const emojiPattern = new RegExp(`${emoji}\\s*\\d{4}-\\d{2}-\\d{2}`);
-	const replacement = `${emoji} ${isoDate}`;
+	const emoji: string = DATE_EMOJI[type] ?? '';
+	const emojiPattern: RegExp = new RegExp(`${emoji}\\s*\\d{4}-\\d{2}-\\d{2}`);
+	const replacement: string = `${emoji} ${isoDate}`;
 
 	if (emojiPattern.test(line)) {
-		return line.replace(emojiPattern, replacement) as string;
+		const result: string = line.replace(emojiPattern, replacement);
+		return result;
 	}
 
 	// Also replace dataview format if present
-	const dvPattern = DATAVIEW_PATTERNS[type];
+	const dvPattern: RegExp = DATAVIEW_PATTERNS[type] ?? /(?!)/;
 	if (dvPattern.test(line)) {
-		return line.replace(dvPattern, replacement);
+		const result: string = line.replace(dvPattern, replacement);
+		return result;
 	}
 
 	// Append before any trailing whitespace
-	return line.trimEnd() + ' ' + replacement;
+	const trimmed: string = line.trimEnd();
+	return `${trimmed} ${replacement}`;
 }
 
 /**
  * Remove a specific date type from a task line.
  */
 export function removeDateFromLine(line: string, type: DateType): string {
-	const emoji = DATE_EMOJI[type] as string;
-	const emojiPattern = new RegExp(`\\s*${emoji}\\s*\\d{4}-\\d{2}-\\d{2}`, 'g');
-	line = line.replace(emojiPattern, '') as string;
-	const dvPattern = new RegExp(`\\s*[[(](?:due|start|end|scheduled)::\\s*\\d{4}-\\d{2}-\\d{2}[\\])]`, 'g');
-	return (line.replace(dvPattern, '') as string).trimEnd();
+	const emoji: string = DATE_EMOJI[type] ?? '';
+	const emojiPattern: RegExp = new RegExp(`\\s*${emoji}\\s*\\d{4}-\\d{2}-\\d{2}`, 'g');
+	const withoutEmoji: string = line.replace(emojiPattern, '');
+	const dvPattern: RegExp = /\s*[[(](?:due|start|end|scheduled)::\s*\d{4}-\d{2}-\d{2}[\])]/g;
+	const withoutDv: string = withoutEmoji.replace(dvPattern, '');
+	return withoutDv.trimEnd();
 }

@@ -52,6 +52,6 @@ export default class VaultTaskPlannerPlugin extends Plugin {
 			await leaf.setViewState({ type: VIEW_TYPE, active: true });
 		}
 
-		void workspace.revealLeaf(leaf);
+		await workspace.revealLeaf(leaf);
 	}
 }
